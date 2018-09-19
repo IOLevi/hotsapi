@@ -7,3 +7,7 @@ Stretch
 -- connect it with a webapp or a mobile app so I can play with the data
 -- maybe connect with trello to ping my phone with today's top 2/3 of each hero class
 -- output a suggested pick/bans list based on the current winrates that the API scrapes
+-- create spreadsheets based off data from the heroes.json, such as damage/sec from autos
+    --most burst possible
+    --healing/sec
+    --effective hp after armor/average

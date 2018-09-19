@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 import requests
 from bs4 import BeautifulSoup
-# from dbs import storage
-# from herotemplate import HeroTemplate
+from dbs import storage
+from herotemplate import HeroTemplate
 
 r = requests.get('http://hotslogs.com')
 pagehtml = r.text
@@ -36,7 +36,7 @@ for row in soup.find('tbody').find_all('tr'):
     attrs['heroClass'] = fields[7].string
     attrs['heroSubclass'] = fields[8].string
     attrs['participation'] = float(rc(fields[4].contents[0]))
-    print(attrs)
+    # print(attrs)
     hero = HeroTemplate(**attrs)
     hero.save()
     
