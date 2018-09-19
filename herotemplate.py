@@ -21,9 +21,10 @@ class HeroTemplate(Base):
     winRate = Column(Float, nullable=False, default=0) # should i set defaults?
     change = Column(Float, nullable=False, default=0) # should i set defaults?
     heroClass = Column(String(60), nullable=False, default=0) # should i set defaults?
+    heroSubclass = Column(String(60), nullable=False, default=0) # should i set defaults?
 
     def __init__(self, *args, **kwargs):
-        self.id = str(uuid.uuid4())
+        self.id = str(uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 

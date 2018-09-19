@@ -3,9 +3,8 @@
 from flask import Flask, make_response, jsonify, Response, abort
 import os
 from flask_cors import CORS
-from urlshort import urlshort
 from dbs import storage
-from base_entry import ShortURL
+from herotemplate import HeroTemplate
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
