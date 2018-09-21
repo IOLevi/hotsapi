@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 "App module"
-from flask import Flask, make_response, jsonify, Response, abort
+from flask import Flask, make_response, jsonify, Response, abort, render_template
 import os
 from flask_cors import CORS
 from dbs import storage
@@ -31,6 +31,17 @@ def testshort(url):
     a = ShortURL(**att)
     a.save()
     return "www.ourweb.com/" + short
+
+@app.route('/', strict_slashes=False, methods=['GET'])
+def display_splash():
+    """prints splash of things"""
+
+    heroes = list(storage.all().values())
+    supports = [healer for healer in heroes if healer.heroClass == 'Support']
+    warriors = [warrior for warrior in heroes if healer.heroClass == 'Warrior']
+    assassins = [assassin for assassin in heroes if healer.heroClass == 'Assassin']
+
+    return render_template("index.html", warriors=warriors, supports=supports, assassins=assassins)
 
 @app.route('/<string:shorturl>', strict_slashes=False, methods=['GET'])
 def testshort2(shorturl):

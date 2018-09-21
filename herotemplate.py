@@ -9,7 +9,7 @@ Base = declarative_base()
 
 class HeroTemplate(Base):
 
-    __tablename__ = 'heroes'
+    __tablename__ = 'heroes' #.format(mmddyy)
     id = Column(String(60), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow(), nullable=False)

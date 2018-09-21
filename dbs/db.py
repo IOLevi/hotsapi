@@ -31,18 +31,17 @@ class DBStorage:
         if envv == 'test':
             Base.metadata.drop_all(self.__engine)
 
-    def all(self, cls=HeroTemplate):
+    def all(self):
         '''
             Query current database session
         '''
         db_dict = {}
 
-        if cls:
-            objs = self.__session.query(HeroTemplate).all()
-            for obj in objs:
-                key = "{}.{}".format(obj.__class__.__name__, obj.id)
-                db_dict[key] = obj
-            return db_dict
+        objs = self.__session.query(HeroTemplate).all()
+        for obj in objs:
+            key = "{}.{}".format(obj.__class__.__name__, obj.id)
+            db_dict[key] = obj
+        return db_dict
 
     def new(self, obj):
         '''
@@ -82,6 +81,9 @@ class DBStorage:
         ''' counts all the instances of a class '''
         return len(self.all(cls))
 
+    @property
+    def session(self):
+        return self.__session
 
     def get(self, id):
         '''
