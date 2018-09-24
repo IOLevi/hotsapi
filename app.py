@@ -30,9 +30,12 @@ def display_splash():
     # warriors = [warrior for warrior in heroes if healer.heroClass == 'Warrior']
     # assassins = [assassin for assassin in heroes if healer.heroClass == 'Assassin']
 # add .desc() to the end to sort em up
-    supports = storage.session.query(HeroTemplate).filter_by(heroClass='Support').filter(HeroTemplate.gamesPlayed > 1000).order_by(HeroTemplate.winRate.desc())[0:3]
-    warriors = storage.session.query(HeroTemplate).filter_by(heroClass='Warrior').filter(HeroTemplate.gamesPlayed > 1000).order_by(HeroTemplate.winRate.desc())[0:3]
-    assassins = storage.session.query(HeroTemplate).filter_by(heroClass='Assassin').filter(HeroTemplate.gamesPlayed > 1000).order_by(HeroTemplate.winRate.desc())[0:3]
+    # supports = storage.session.query(HeroTemplate).filter_by(heroClass='Support').filter(HeroTemplate.gamesPlayed > 1000).order_by(HeroTemplate.winRate.desc())[0:3]
+    supports = storage.session.query(HeroTemplate).filter_by(heroClass='Support').order_by(HeroTemplate.winRate.desc())
+    warriors = storage.session.query(HeroTemplate).filter_by(heroClass='Warrior').order_by(HeroTemplate.winRate.desc())
+    # warriors = storage.session.query(HeroTemplate).filter_by(heroClass='Warrior').filter(HeroTemplate.gamesPlayed > 1000).order_by(HeroTemplate.winRate.desc())[0:3]
+    assassins = storage.session.query(HeroTemplate).filter_by(heroClass='Assassin').order_by(HeroTemplate.winRate.desc())
+    # assassins = storage.session.query(HeroTemplate).filter_by(heroClass='Assassin').filter(HeroTemplate.gamesPlayed > 1000).order_by(HeroTemplate.winRate.desc())[0:3]
 
     return render_template("index.html", warriors=warriors, supports=supports, assassins=assassins)
 
