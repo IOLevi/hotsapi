@@ -1,0 +1,9 @@
+  cat mysql_setup_db.sql | sudo mysql -uroot
+  sudo apt-get install python3 -y
+  sudo apt-get install python3-pip -y 
+  sudo pip3 install bs4
+  sudo pip3 install sqlalchemy
+  sudo apt-get install python3-pip python3-dev libmysqlclient-dev
+  sudo pip3 install mysqlclient
+  chmod u+x scrape.py
+  sudo pip3 install flask
