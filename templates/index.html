@@ -1,7 +1,6 @@
-<!-- Use a progress bar to show the winrate inside the cell!!! -->
-<!-- containerize each table+rowheadings to see if that prevents collapsing into each other -->
 <!-- https://stackoverflow.com/questions/11178426/how-can-i-pass-data-from-flask-to-javascript-in-a-template -->
 <!-- Can pass objects to javascript from jinja using |tojson -->
+<!-- add a list of available endpoints to the bottom -->
 <!doctype html>
 <html lang="en">
   <head>
@@ -158,12 +157,22 @@
                         </td>
 
                         <td>{{ h.gamesPlayed }}</td>
-                    </tr>
+                    </tr
                     {% endfor %}
                 </tbody>
             </table> 
             </div>
 </div>
+
+<footer>
+    <div class="container-fluid border-top">
+        <div class="row">
+            <div class="col-12">
+               <a href="api/dev">API</a> 
+            </div>
+        </div>
+    </div>
+</footer>
 
       
     <!-- Optional JavaScript -->
