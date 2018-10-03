@@ -1,10 +1,15 @@
 $(document).ready(function() {
-  let player = $('#player').data('username');
+  let player = {{ current_user.username }};
   let url = `https://api.hotslogs.com/Public/Players/1/${player}`
 
   $.get(url, function (data) {
-    console.log((data));
+      console.log((data));
 
-    $('#qm').html(data['LeaderboardRankings'][0]['CurrentMMR']);
+      for (let row of data['LeaderboardRankings']) {
+          if (row['LeagueRank'] !== null) {
+          $('#myTable > tbody:last-child').append(`<tr>${row['GameMode']}<tr>test</tr><tr>test</tr><tr>test</tr>`)
+          }
+      }
+      // $('#qm').html(data['LeaderboardRankings'][0]['CurrentMMR']);
   });
-});
+ });
