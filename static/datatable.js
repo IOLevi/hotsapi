@@ -3,13 +3,13 @@
 // ISSUE WAS CACHED JS FILE
 $(document).ready(function () {
   $('.display').DataTable({
-    'order': [[1, 'desc']]
+    'order': [[2, 'desc']]
   });
 });
 $(window).scroll(function () {
   var scroll = $(window).scrollTop();
 
-  if (scroll >= 300) {
+  if (scroll >= 200) {
     $('#stickyheader').addClass('isStuck',);
     $('#stickyheader').addClass('container-fluid');
     $('#stickyheader').removeClass('container');

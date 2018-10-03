@@ -74,11 +74,7 @@ def user(username):
     if current_user.username != username:
         return redirect(url_for('index'))
 
-    posts = [
-        {'author': user, 'body': 'Test post #1'},
-        {'author': user, 'body': 'Test post #2'}
-    ]
-    return render_template('user.html', user=user, posts=posts)
+    return render_template('user.html', user=user)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -104,7 +100,14 @@ def tear_down(self):
 @app.errorhandler(404)
 def not_found(error):
     "error handler for 404"
-    return make_response(jsonify({'error': 'Not found'}), 404)
+    # return make_response(jsonify({'error': 'Not found'}), 404)
+    return render_template('404.html')
+
+
+@app.errorhandler(500)
+def server_borked(error):
+    "error handler for 500"
+    return render_template('500.html')
 
 @app.route('/', strict_slashes=False, methods=['GET'])
 def index():
