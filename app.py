@@ -5,12 +5,12 @@ import os
 from flask_cors import CORS
 from dbs import storage
 from herotemplate import HeroTemplate
-from flask_login import LoginManager, current_user, login_user, logout_user
+from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from user import User
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
-from forms import LoginForm, RegistrationForm
+from forms import LoginForm, RegistrationForm, EditProfileForm
 
 
 
@@ -21,6 +21,8 @@ cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 app.config['SECRET_KEY'] = 'thisisnotatest'
 login = LoginManager(app)
 login.login_view = 'login'
+
+# AUTHENTICATION
 
 @login.user_loader
 def load_user(id):
@@ -58,6 +60,41 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
+# PROFILE
+
+@app.route('/user/<username>')
+@login_required
+def user(username):
+    user = storage.session.query(User).filter_by(username=username).first()
+
+    if user is None:
+        abort(404)
+    
+    # redirect if they try to access a profile that isn't theirs
+    if current_user.username != username:
+        return redirect(url_for('index'))
+
+    posts = [
+        {'author': user, 'body': 'Test post #1'},
+        {'author': user, 'body': 'Test post #2'}
+    ]
+    return render_template('user.html', user=user, posts=posts)
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.hotslogs = form.hotslogs.data
+        current_user.save()
+        flash('Your changes have been saved.')
+        return redirect(url_for('edit_profile'))
+    elif request.method == 'GET':
+        form.hotslogs.data = current_user.hotslogs
+    return render_template('edit_profile.html', title='Edit Profile',
+                           form=form)
+
+
 @app.teardown_appcontext
 def tear_down(self):
     "tears down"
@@ -79,6 +116,8 @@ def index():
     # assassins = storage.session.query(HeroTemplate).filter_by(heroClass='Assassin').filter(HeroTemplate.gamesPlayed > 1000).order_by(HeroTemplate.winRate.desc())[0:3]
 
     return render_template("index.html", warriors=warriors, supports=supports, assassins=assassins)
+
+# API ROUTES
 
 @app.route('/api/v1/supports', strict_slashes=False, methods=['GET'])
 def get_supports():

@@ -3,7 +3,7 @@ from dbs import storage
 
 a = User()
 storage.reload()
-a.email = 'test@test.com'
-a.set_password('test')
-a.username = 'test'
+a.email = 'tet@test.com'
+a.set_password('tst')
+a.username = 'tst'
 a.save()
