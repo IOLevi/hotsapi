@@ -11,6 +11,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from forms import LoginForm, RegistrationForm, EditProfileForm
+from sqlalchemy import or_
 
 
 
@@ -90,6 +91,14 @@ def edit_profile():
     return render_template('edit_profile.html', title='Edit Profile',
                            form=form)
 
+# BANS
+@app.route('/bans')
+def bans():
+    tanks = storage.session.query(HeroTemplate).filter_by(heroSubclass='Tank').order_by(HeroTemplate.gamesBanned.desc())[0:2]
+    bruisers = storage.session.query(HeroTemplate).filter_by(heroSubclass='Bruiser').order_by(HeroTemplate.gamesBanned.desc())[0:2]
+    supports = storage.session.query(HeroTemplate).filter(or_(HeroTemplate.heroSubclass=='Support', HeroTemplate.heroSubclass=='Healer')).order_by(HeroTemplate.gamesBanned.desc())[0:2]
+    assassins = storage.session.query(HeroTemplate).filter_by(heroClass='Assassin').order_by(HeroTemplate.gamesBanned.desc())[0:2]
+    return render_template('bans.html', title='Bans', tanks=tanks, bruisers=bruisers, supports=supports, assassins=assassins)
 
 @app.teardown_appcontext
 def tear_down(self):

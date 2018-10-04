@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>Ban Recommendations (Highest Total Bans)</h2>
+
+    <div class="container shadow p-3 mb-5 bg-white rounded">
+            <h4>Priority Bans</h4>
+        <table id='myTable' class="table table-striped table-bordered table-hover"> 
+            <caption>OP HEROES</caption>
+            <thead class='thead-light'>
+                <tr>
+                    <th>Hero</th>
+                    <th>Subclass</th>
+                    <th>#Bans</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sup in supports %}
+                    <tr>
+                        <td>{{ sup.heroName }}</td>
+                        <td>{{ sup.heroSubclass }}</td>
+                        <td>{{ sup.gamesBanned }}</td>
+                    </tr>
+                {% endfor %}
+                {% for ass in assassins %}
+                    <tr>
+                        <td>{{ ass.heroName }}</td>
+                        <td>{{ ass.heroSubclass }}</td>
+                        <td>{{ ass.gamesBanned }}</td>
+                    </tr>
+                {% endfor %}
+                {% for tank in tanks %}
+                    <tr>
+                        <td>{{ tank.heroName }}</td>
+                        <td>{{ tank.heroSubclass }}</td>
+                        <td>{{ tank.gamesBanned }}</td>
+                    </tr>
+                {% endfor %}
+                {% for bruiser in bruisers %}
+                    <tr>
+                        <td>{{ bruiser.heroName }}</td>
+                        <td>{{ bruiser.heroSubclass }}</td>
+                        <td>{{ bruiser.gamesBanned }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table> 
+        </div>
+
+
+{% endblock %}
