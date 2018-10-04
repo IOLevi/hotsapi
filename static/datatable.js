@@ -9,7 +9,7 @@ $(document).ready(function () {
 $(window).scroll(function () {
   var scroll = $(window).scrollTop();
 
-  if (scroll >= 200) {
+  if (scroll >= 100) {
     $('#stickyheader').addClass('isStuck',);
     $('#stickyheader').addClass('container-fluid');
     $('#stickyheader').removeClass('container');

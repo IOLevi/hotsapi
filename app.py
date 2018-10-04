@@ -84,7 +84,7 @@ def edit_profile():
         current_user.hotslogs = form.hotslogs.data
         current_user.save()
         flash('Your changes have been saved.')
-        return redirect(url_for('edit_profile'))
+        return redirect(url_for('user', username=current_user.username))
     elif request.method == 'GET':
         form.hotslogs.data = current_user.hotslogs
     return render_template('edit_profile.html', title='Edit Profile',
