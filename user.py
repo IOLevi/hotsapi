@@ -1,3 +1,4 @@
+"User module for DB/sqlalchemy integration"
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float, DateTime
 from uuid import uuid4
@@ -9,10 +10,9 @@ import dbs
 from herotemplate import Base
 from flask_login import UserMixin
 
-# ...
 
 class User(Base, UserMixin):
-    # ...
+    "User for login"
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     username = Column(String(64), index=True, unique=True)
@@ -21,9 +21,11 @@ class User(Base, UserMixin):
     hotslogs = Column(String(120), nullable=True)
 
     def set_password(self, password):
+        "generates a hashed password for storage"
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
+        "checks whether password input resolves to same hashed password"
         return check_password_hash(self.password_hash, password)
 
     def save(self):
@@ -38,14 +40,3 @@ class User(Base, UserMixin):
             Deletes an object
         '''
         dbs.storage.delete(self)
-    # is_authenticated()
-    # is_active()
-    # is_anonymous()
-    # get_id()
-
-# if __name__ == "__main__":
-#     a = User()
-#     a.set_password("hi")
-
-#     print(a.password_hash)
-#     print(a.check_password("hi"))

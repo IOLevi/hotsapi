@@ -1,3 +1,4 @@
+"Module to prepopulate a User into the DB"
 from user import User
 from dbs import storage
 

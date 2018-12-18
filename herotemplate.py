@@ -1,3 +1,4 @@
+"Module for template for storing hero statistics in the database"
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Float, DateTime
 from uuid import uuid4
@@ -7,21 +8,24 @@ import dbs
 
 Base = declarative_base()
 
-class HeroTemplate(Base):
 
-    __tablename__ = 'heroes' #.format(mmddyy)
+class HeroTemplate(Base):
+    """Hero template class for database storage. 
+    """
+    __tablename__ = 'heroes'
     id = Column(String(60), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
-    # should i have a UUID as primary key ID?
-    heroName = Column(String(60), nullable=False, primary_key=True)    
-    gamesPlayed = Column(Integer, nullable=False, default=0) # should i set defaults?
-    gamesBanned = Column(Integer, nullable=False, default=0) # should i set defaults?
-    participation = Column(Float, nullable=False, default=0) # should i set defaults?
-    winRate = Column(Float, nullable=False, default=0) # should i set defaults?
-    change = Column(Float, nullable=False, default=0) # should i set defaults?
-    heroClass = Column(String(60), nullable=False, default=0) # should i set defaults?
-    heroSubclass = Column(String(60), nullable=False, default=0) # should i set defaults?
+    heroName = Column(String(60), nullable=False, primary_key=True)
+    gamesPlayed = Column(Integer, nullable=False, default=0)
+    gamesBanned = Column(Integer, nullable=False, default=0)
+    participation = Column(Float, nullable=False, default=0)
+    winRate = Column(Float, nullable=False, default=0)
+    change = Column(Float, nullable=False, default=0)
+    heroClass = Column(String(60), nullable=False,
+                       default=0)
+    heroSubclass = Column(String(60), nullable=False,
+                          default=0)
 
     def __init__(self, *args, **kwargs):
         self.id = str(uuid4())
@@ -36,7 +40,7 @@ class HeroTemplate(Base):
             Return string representation of BaseModel class
         '''
         return ("[{}] ({}) {}".format(self.__class__.__name__,
-                                    self.id, self.__dict__))
+                                      self.id, self.__dict__))
 
     def __repr__(self):
         '''

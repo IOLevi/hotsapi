@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"App module"
+"Flask App module."
 from flask import Flask, make_response, jsonify, Response, abort, render_template, request, url_for, redirect, flash
 import os
 from flask_cors import CORS
@@ -31,6 +31,7 @@ def load_user(id):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """handling for user login"""
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = LoginForm()
@@ -45,11 +46,13 @@ def login():
 
 @app.route('/logout')
 def logout():
+    """logs the current user out, if logged in, and returns to in index page"""
     logout_user()
     return redirect(url_for('index'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """handling for new user registration"""
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = RegistrationForm()
@@ -66,6 +69,7 @@ def register():
 @app.route('/user/<username>')
 @login_required
 def user(username):
+    """renders page about the current user, if authenticated"""
     user = storage.session.query(User).filter_by(username=username).first()
 
     if user is None:
@@ -80,6 +84,7 @@ def user(username):
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
+    """renders a page to edit the current user's information, if authenticated"""
     form = EditProfileForm()
     if form.validate_on_submit():
         current_user.hotslogs = form.hotslogs.data
@@ -94,6 +99,7 @@ def edit_profile():
 # BANS
 @app.route('/bans')
 def bans():
+    """renders a page with ban statistics"""
     tanks = storage.session.query(HeroTemplate).filter_by(heroSubclass='Tank').order_by(HeroTemplate.gamesBanned.desc())[0:2]
     bruisers = storage.session.query(HeroTemplate).filter_by(heroSubclass='Bruiser').order_by(HeroTemplate.gamesBanned.desc())[0:2]
     supports = storage.session.query(HeroTemplate).filter(or_(HeroTemplate.heroSubclass=='Support', HeroTemplate.heroSubclass=='Healer')).order_by(HeroTemplate.gamesBanned.desc())[0:2]
@@ -109,7 +115,6 @@ def tear_down(self):
 @app.errorhandler(404)
 def not_found(error):
     "error handler for 404"
-    # return make_response(jsonify({'error': 'Not found'}), 404)
     return render_template('404.html')
 
 
@@ -120,12 +125,11 @@ def server_borked(error):
 
 @app.route('/', strict_slashes=False, methods=['GET'])
 def index():
-    """prints splash of things"""
+    """renders the main page with statistics"""
 
     supports = storage.session.query(HeroTemplate).filter_by(heroClass='Support').order_by(HeroTemplate.winRate.desc())
     warriors = storage.session.query(HeroTemplate).filter_by(heroClass='Warrior').order_by(HeroTemplate.winRate.desc())
     assassins = storage.session.query(HeroTemplate).filter_by(heroClass='Assassin').order_by(HeroTemplate.winRate.desc())
-    # assassins = storage.session.query(HeroTemplate).filter_by(heroClass='Assassin').filter(HeroTemplate.gamesPlayed > 1000).order_by(HeroTemplate.winRate.desc())[0:3]
 
     return render_template("index.html", warriors=warriors, supports=supports, assassins=assassins)
 
@@ -133,23 +137,27 @@ def index():
 
 @app.route('/api/v1/supports', strict_slashes=False, methods=['GET'])
 def get_supports():
+    """api supports route"""
     supports = storage.session.query(HeroTemplate).filter_by(heroClass='Support').order_by(HeroTemplate.winRate.desc())
 
     return jsonify([sup.to_dict() for sup in supports])
 @app.route('/api/v1/warriors', strict_slashes=False, methods=['GET'])
 def get_warriors():
+    """api warriors route"""
     warriors = storage.session.query(HeroTemplate).filter_by(heroClass='Warrior').order_by(HeroTemplate.winRate.desc())
 
     return jsonify([war.to_dict() for war in warriors])
 
 @app.route('/api/v1/assassins', strict_slashes=False, methods=['GET'])
 def get_assassins():
+    """api assassin's route"""
     assassins = storage.session.query(HeroTemplate).filter_by(heroClass='Assassin').order_by(HeroTemplate.winRate.desc())
 
     return jsonify([ass.to_dict() for ass in assassins])
 
 @app.route('/api/dev', strict_slashes=False)
 def get_dev_page():
+    """renders a page describing the api"""
     return render_template("/api/dev.html")
 
 if __name__ == "__main__":
