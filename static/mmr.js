@@ -10,6 +10,5 @@ $(document).ready(function() {
           $('#myTable > tbody:last-child').append(`<tr>${row['GameMode']}<tr>test</tr><tr>test</tr><tr>test</tr>`)
           }
       }
-      // $('#qm').html(data['LeaderboardRankings'][0]['CurrentMMR']);
   });
  });
