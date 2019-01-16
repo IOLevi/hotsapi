@@ -1,5 +1,5 @@
 # IOLevi's Hots API
-
+(Running on an AWS EC2 Instance at http://18.216.106.216/). 
 Self-hosted web app, exposing an external API and front end for Heroes of the Storm gaming statistics. 
 
 - Web scraped statistics using BeautifulSoup4 and stored data on a MySQL database, running on a Linux VM, using SQLAlchemy as an ORM. 
