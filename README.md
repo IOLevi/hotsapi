@@ -1,5 +1,5 @@
 # IOLevi's Hots API
-(Running on an AWS EC2 Instance at http://18.216.106.216/). 
+(Will configure to run on AWS EC2 on request for demonstration). 
 
 Self-hosted web app, exposing an external API and front end for Heroes of the Storm gaming statistics. 
 
